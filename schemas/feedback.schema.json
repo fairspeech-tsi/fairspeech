@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fairspeech-tsi/fairspeech/schemas/feedback.schema.json",
+  "title": "FairSpeech transcript and feedback",
+  "description": "One segment transcribed by one source, with fluency metrics and feedback flags. See docs/data_contracts.md.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "segment_id",
+    "source",
+    "model",
+    "transcript",
+    "words",
+    "fluency",
+    "feedback",
+    "created_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "segment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "human",
+        "whisper",
+        "crisperwhisper",
+        "vosk"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "transcript": {
+      "type": "string"
+    },
+    "words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "i",
+          "word",
+          "start",
+          "end",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "i": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "word": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "end": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "fluency": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "wpm",
+        "n_pauses",
+        "mean_pause_s",
+        "filler_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "wpm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "n_pauses": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mean_pause_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "filler_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "flag_id",
+          "type",
+          "rule_id",
+          "category",
+          "word_start",
+          "word_end",
+          "text",
+          "message",
+          "suggestion",
+          "asr_confidence",
+          "label",
+          "shown"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "flag_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "grammar",
+              "filler",
+              "fluency"
+            ]
+          },
+          "rule_id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "word_start": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "word_end": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "text": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "asr_confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "false",
+              "genuine",
+              "ambiguous",
+              null
+            ]
+          },
+          "shown": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

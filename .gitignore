@@ -1,0 +1,51 @@
+# --- Data: never commit audio or the EdAcc download ---
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+!data/mock/
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.ogg
+*.webm
+
+# --- Outputs and model files ---
+outputs/*
+!outputs/.gitkeep
+*.pkl
+*.joblib
+*.pt
+*.bin
+*.safetensors
+*.onnx
+models/
+mlruns/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- Environments and secrets ---
+.venv/
+venv/
+env/
+.env
+*.env
+.secrets/
+hf_token*
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

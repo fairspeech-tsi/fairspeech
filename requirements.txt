@@ -1,0 +1,35 @@
+# FairSpeech – core dependencies (data, feedback modules, analysis, app)
+# Python 3.10–3.12 recommended.
+# Install:   pip install -r requirements.txt
+#            python -m spacy download en_core_web_sm
+# Note: language-tool-python downloads LanguageTool on first use and needs Java 17+.
+# ASR models (Whisper, CrisperWhisper, Vosk) are in requirements-asr.txt and run on Colab.
+
+# --- Data handling ---
+numpy>=1.26
+pandas>=2.2
+pyarrow>=15.0          # parquet read/write
+datasets>=3.0          # loading EdAcc from Hugging Face
+soundfile>=0.12
+librosa>=0.10
+pydub>=0.25
+
+# --- Feedback modules (Member C) ---
+spacy>=3.7,<4.0
+language-tool-python>=2.9
+jiwer>=3.0             # word alignment and WER
+wordfreq>=3.1          # word frequency feature
+
+# --- Statistics, gate training and analysis (Members A and B) ---
+scipy>=1.13
+scikit-learn>=1.5
+lightgbm>=4.3
+shap>=0.45
+matplotlib>=3.8
+
+# --- App (Member C) ---
+streamlit>=1.40        # st.audio_input for browser recording
+
+# --- Dev ---
+pytest>=8.0
+jsonschema>=4.21       # validates feedback JSON against schemas/feedback.schema.json
