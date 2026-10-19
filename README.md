@@ -1,8 +1,6 @@
 # FairSpeech
 
-**Measuring and Mitigating ASR Bias Propagation in AI-Based Interview Feedback for Non-Native Speakers**
-
-UFCE7W-18-M Artificial Intelligence Group Project · Team [number]
+**Measuring and Mitigating ASR (Automatic Speech Recognition) Bias Propagation in AI-Based Interview Feedback for Non-Native Speakers**
 
 FairSpeech measures how often speech-recognition (ASR) errors turn into unfair feedback for speakers with different accents (RQ1), and trains a feedback gate that suppresses ASR-induced false feedback, compared with a confidence-threshold baseline (RQ2). The project uses the Edinburgh International Accents of English Corpus (EdAcc) and includes a Streamlit interview-practice demo.
 
