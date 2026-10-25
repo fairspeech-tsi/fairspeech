@@ -5,11 +5,35 @@ Output: grammar flags appended to `record["feedback"]` (type "grammar").
 """
 from src.text_normalise import normalise_token
 
+# LanguageTool categories that describe grammar in speech; all others are ignored.
+KEPT_LT_CATEGORIES = {"GRAMMAR", "CONFUSED_WORDS", "COLLOCATIONS", "NONSTANDARD_PHRASES", "MISC"}
+
+# Rules inside the kept categories that fire on written-text conventions or on
+# disfluencies (repetitions are speech, not grammar errors).
+DISABLED_RULES = {
+    "UPPERCASE_SENTENCE_START",
+    "I_LOWERCASE",
+    "MORFOLOGIK_RULE_EN_US",
+    "WHITESPACE_RULE",
+    "COMMA_PARENTHESIS_WHITESPACE",
+    "EN_QUOTES",
+    "PUNCTUATION_PARAGRAPH_END",
+    "SENTENCE_WHITESPACE",
+    "ENGLISH_WORD_REPEAT_RULE",
+    "ENGLISH_WORD_REPEAT_BEGINNING_RULE",
+    "EN_CONTRACTION_SPELLING",
+}
+
+def keep_match(rule_id: str, category: str) -> bool:
+    """True if a LanguageTool match is a grammar issue we report for speech."""
+    if rule_id in DISABLED_RULES:
+        return False
+    return category.upper() in KEPT_LT_CATEGORIES
+
 """Join normalised words with single spaces.
 Returns the text and a list of (char_start, char_end, word_index) spans,
 so a LanguageTool match can be mapped back to indices in record["words"].
 """
-
 def build_check_text(words: list[dict]) -> tuple[str, list[tuple[int, int, int]]]:
     parts = []   # normalised tokens that go into the checked text
     spans = []   # (char_start, char_end, word_index) for each token in parts
