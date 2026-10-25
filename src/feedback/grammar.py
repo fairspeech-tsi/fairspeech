@@ -30,11 +30,59 @@ def keep_match(rule_id: str, category: str) -> bool:
         return False
     return category.upper() in KEPT_LT_CATEGORIES
 
-"""Join normalised words with single spaces.
-Returns the text and a list of (char_start, char_end, word_index) spans,
-so a LanguageTool match can be mapped back to indices in record["words"].
-"""
+def detect_grammar(record: dict, tool) -> tuple[list[dict], int]:
+    """Return grammar flags for one record in the contract format, and the number
+    of kept matches that could not be mapped to any word (see match_to_words).
+
+    tool is anything with a check(text) method returning LanguageTool-style
+    matches (rule_id, category, offset, error_length, message, replacements).
+    """
+    words = record["words"]
+    text, spans = build_check_text(words)
+    if not text:
+        return [], 0
+
+    by_index = {w["i"]: w for w in words}  # word index -> word object
+    flags = []
+    n_unmapped = 0
+
+    for m in tool.check(text):
+        if not keep_match(m.rule_id, m.category):
+            continue
+
+        hit = match_to_words(m.offset, m.error_length, spans)
+        if not hit:
+            n_unmapped += 1  # e.g. a zero-length match on a space
+            continue
+
+        # Take the full range of original words, including skipped fillers
+        # inside it, so text and confidence describe what was actually said.
+        ws, we = min(hit), max(hit)
+        flagged = [by_index[i] for i in range(ws, we + 1)]
+        confs = [w["confidence"] for w in flagged if w["confidence"] is not None]
+
+        flags.append({
+            "flag_id": "",  # numbered later, once all flag types are added
+            "type": "grammar",
+            "rule_id": m.rule_id,
+            "category": group_category(m.rule_id, m.category, m.message),
+            "word_start": ws,
+            "word_end": we,
+            "text": " ".join(w["word"] for w in flagged),
+            "message": m.message,
+            "suggestion": m.replacements[0] if m.replacements else None,
+            "asr_confidence": min(confs) if confs else None,
+            "label": None,  # filled by the alignment step
+            "shown": True,  # every flag is shown before gating
+        })
+
+    return flags, n_unmapped
+
 def build_check_text(words: list[dict]) -> tuple[str, list[tuple[int, int, int]]]:
+    """Join normalised words with single spaces.
+    Returns the text and a list of (char_start, char_end, word_index) spans,
+    so a LanguageTool match can be mapped back to indices in record["words"].
+    """
     parts = []   # normalised tokens that go into the checked text
     spans = []   # (char_start, char_end, word_index) for each token in parts
     pos = 0      # character position where the next token will start
@@ -74,3 +122,29 @@ def match_to_words(offset: int, length: int, spans: list[tuple[int, int, int]]) 
 
     m_end = max(m_start + length, m_start + 1)
     return [i for s, e, i in spans if s < m_end and e > m_start]
+
+def group_category(rule_id: str, lt_category: str, message: str = "") -> str:
+    """Map a LanguageTool rule to a project category (contract field `category`).
+
+    LanguageTool has hundreds of rules and no grouping we can use directly, so
+    rules are grouped by keywords in the rule ID and the message. Order matters:
+    the first matching group wins. Anything unmatched is "other_grammar"; check
+    the most frequent other_grammar rules on the pilot data and extend the map.
+    """
+    r = rule_id.upper()
+    msg = message.lower()
+
+    if ("AGR" in r or r in {"BASE_FORM", "NON3PRS_VERB", "DOES_X_HAS", "THIRD_PERSON_PLURAL", "SHE_LIVE"}
+            or "agreement" in msg or "third-person" in msg or "third person" in msg):
+        return "subject_verb_agreement"
+    if "A_VS_AN" in r or r.startswith("EN_A_") or "ARTICLE" in r or r.startswith("DT_") or "A_NNS" in r:
+        return "article"
+    if any(k in r for k in ("TENSE", "PAST", "PARTICIPLE", "HAVE_PART", "VBZ", "VBG", "VB_", "MD_", "GERUND", "INFINITIVE")):
+        return "verb_form"
+    if "PREP" in r:
+        return "preposition"
+    if "PLURAL" in r or "NNS" in r or "NUMBER" in r:
+        return "noun_number"
+    if lt_category.upper() == "CONFUSED_WORDS":
+        return "confused_words"
+    return "other_grammar"
