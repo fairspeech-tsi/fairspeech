@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair1",
+  "source": "whisper",
+  "model": "openai/whisper-large-v3",
+  "transcript": "I has led three projects in my last job.",
+  "words": [
+    {
+      "i": 0,
+      "word": "I",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 1,
+      "word": "has",
+      "start": null,
+      "end": null,
+      "confidence": 0.42
+    },
+    {
+      "i": 2,
+      "word": "led",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 3,
+      "word": "three",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 4,
+      "word": "projects",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 5,
+      "word": "in",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 6,
+      "word": "my",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 7,
+      "word": "last",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 8,
+      "word": "job.",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    }
+  ],
+  "fluency": null,
+  "feedback": [
+    {
+      "flag_id": "mock_pair1:whisper:0",
+      "type": "grammar",
+      "rule_id": "BASE_FORM",
+      "category": "subject_verb_agreement",
+      "word_start": 1,
+      "word_end": 1,
+      "text": "has",
+      "message": "Possible agreement error — use the base form here.",
+      "suggestion": "have",
+      "asr_confidence": 0.42,
+      "label": null,
+      "shown": true
+    }
+  ],
+  "created_at": "2026-10-26T23:20:06Z"
+}
