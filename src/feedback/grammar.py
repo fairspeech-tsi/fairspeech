@@ -78,6 +78,31 @@ def detect_grammar(record: dict, tool) -> tuple[list[dict], int]:
 
     return flags, n_unmapped
 
+def number_flags(record: dict) -> None:
+    """Sort all flags by position and give each the id <segment_id>:<source>:<n>.
+
+    Covers every flag type, so it is rerun whenever a module adds flags.
+    """
+    type_order = {"grammar": 0, "filler": 1, "fluency": 2}  # tie-break on the same word
+    record["feedback"].sort(
+        key=lambda f: (f["word_start"], type_order.get(f["type"], 9), f["rule_id"])
+    )
+    for n, f in enumerate(record["feedback"]):
+        f["flag_id"] = f"{record['segment_id']}:{record['source']}:{n}"
+
+
+def add_grammar_feedback(record: dict, tool) -> int:
+    """Replace the record's grammar flags with fresh ones and renumber all flags.
+
+    Modifies record in place and keeps flags of other types, so it is safe to
+    rerun. Returns the number of matches that could not be mapped to a word.
+    """
+    record["feedback"] = [f for f in record.get("feedback", []) if f["type"] != "grammar"]
+    flags, n_unmapped = detect_grammar(record, tool)
+    record["feedback"].extend(flags)
+    number_flags(record)
+    return n_unmapped
+
 def build_check_text(words: list[dict]) -> tuple[str, list[tuple[int, int, int]]]:
     """Join normalised words with single spaces.
     Returns the text and a list of (char_start, char_end, word_index) spans,
