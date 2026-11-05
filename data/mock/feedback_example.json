@@ -77,9 +77,9 @@
     }
   ],
   "fluency": {
-    "wpm": 157.9,
-    "n_pauses": 2,
-    "mean_pause_s": 0.52,
+    "wpm": 145.9,
+    "n_pauses": 1,
+    "mean_pause_s": 0.65,
     "filler_count": 1
   },
   "feedback": [
@@ -91,10 +91,10 @@
       "word_start": 0,
       "word_end": 0,
       "text": "um",
-      "message": "Filler word at the start of your answer.",
+      "message": "Filler word. A short silent pause sounds more confident.",
       "suggestion": null,
       "asr_confidence": 0.61,
-      "label": "genuine",
+      "label": null,
       "shown": true
     },
     {
