@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair5",
+  "source": "human",
+  "model": null,
+  "transcript": "um I think the deadline was too short",
+  "words": [
+    {
+      "i": 0,
+      "word": "um",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 1,
+      "word": "I",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 2,
+      "word": "think",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 3,
+      "word": "the",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 4,
+      "word": "deadline",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 5,
+      "word": "was",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 6,
+      "word": "too",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 7,
+      "word": "short",
+      "start": null,
+      "end": null,
+      "confidence": null
+    }
+  ],
+  "fluency": null,
+  "feedback": [],
+  "created_at": "2026-10-26T23:20:06Z"
+}

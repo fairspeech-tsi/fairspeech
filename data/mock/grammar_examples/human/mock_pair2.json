@@ -1,0 +1,75 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair2",
+  "source": "human",
+  "model": null,
+  "transcript": "she works in a bank in the city centre",
+  "words": [
+    {
+      "i": 0,
+      "word": "she",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 1,
+      "word": "works",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 2,
+      "word": "in",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 3,
+      "word": "a",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 4,
+      "word": "bank",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 5,
+      "word": "in",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 6,
+      "word": "the",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 7,
+      "word": "city",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 8,
+      "word": "centre",
+      "start": null,
+      "end": null,
+      "confidence": null
+    }
+  ],
+  "fluency": null,
+  "feedback": [],
+  "created_at": "2026-10-26T23:20:06Z"
+}

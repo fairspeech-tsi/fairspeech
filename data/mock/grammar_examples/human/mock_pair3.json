@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair3",
+  "source": "human",
+  "model": null,
+  "transcript": "we discussed an idea with the whole team",
+  "words": [
+    {
+      "i": 0,
+      "word": "we",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 1,
+      "word": "discussed",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 2,
+      "word": "an",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 3,
+      "word": "idea",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 4,
+      "word": "with",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 5,
+      "word": "the",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 6,
+      "word": "whole",
+      "start": null,
+      "end": null,
+      "confidence": null
+    },
+    {
+      "i": 7,
+      "word": "team",
+      "start": null,
+      "end": null,
+      "confidence": null
+    }
+  ],
+  "fluency": null,
+  "feedback": [],
+  "created_at": "2026-10-26T23:20:06Z"
+}

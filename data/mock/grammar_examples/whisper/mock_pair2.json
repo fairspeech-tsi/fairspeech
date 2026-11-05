@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair2",
+  "source": "whisper",
+  "model": "openai/whisper-large-v3",
+  "transcript": "She work in a bank in the city centre.",
+  "words": [
+    {
+      "i": 0,
+      "word": "She",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 1,
+      "word": "work",
+      "start": null,
+      "end": null,
+      "confidence": 0.42
+    },
+    {
+      "i": 2,
+      "word": "in",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 3,
+      "word": "a",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 4,
+      "word": "bank",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 5,
+      "word": "in",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 6,
+      "word": "the",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 7,
+      "word": "city",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 8,
+      "word": "centre.",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    }
+  ],
+  "fluency": null,
+  "feedback": [
+    {
+      "flag_id": "mock_pair2:whisper:0",
+      "type": "grammar",
+      "rule_id": "SHE_LIVE",
+      "category": "subject_verb_agreement",
+      "word_start": 1,
+      "word_end": 1,
+      "text": "work",
+      "message": "Please check the verb form.",
+      "suggestion": "works",
+      "asr_confidence": 0.42,
+      "label": null,
+      "shown": true
+    }
+  ],
+  "created_at": "2026-10-26T23:20:06Z"
+}

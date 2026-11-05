@@ -1,0 +1,83 @@
+{
+  "schema_version": "0.1",
+  "segment_id": "mock_pair3",
+  "source": "whisper",
+  "model": "openai/whisper-large-v3",
+  "transcript": "We discussed a idea with the whole team.",
+  "words": [
+    {
+      "i": 0,
+      "word": "We",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 1,
+      "word": "discussed",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 2,
+      "word": "a",
+      "start": null,
+      "end": null,
+      "confidence": 0.42
+    },
+    {
+      "i": 3,
+      "word": "idea",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 4,
+      "word": "with",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 5,
+      "word": "the",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 6,
+      "word": "whole",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    },
+    {
+      "i": 7,
+      "word": "team.",
+      "start": null,
+      "end": null,
+      "confidence": 0.95
+    }
+  ],
+  "fluency": null,
+  "feedback": [
+    {
+      "flag_id": "mock_pair3:whisper:0",
+      "type": "grammar",
+      "rule_id": "EN_A_VS_AN",
+      "category": "article",
+      "word_start": 2,
+      "word_end": 2,
+      "text": "a",
+      "message": "Use “an” instead of ‘a’ if the following word starts with a vowel sound, e.g. ‘an article’, ‘an hour’.",
+      "suggestion": "an",
+      "asr_confidence": 0.42,
+      "label": null,
+      "shown": true
+    }
+  ],
+  "created_at": "2026-10-26T23:20:06Z"
+}
