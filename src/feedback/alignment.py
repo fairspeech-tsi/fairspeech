@@ -43,8 +43,9 @@ def to_tokens(words: list[dict]) -> tuple[list[str], list[int]]:
     """Alignment tokens and, for each token, the index of its word in `words`."""
     tokens, word_index = [], []
     for w in words:
-        tok = align_token(w["word"])
-        if tok:
+        # One word can give several tokens ("twenty-five" -> "twenty", "five");
+        # all of them keep the index of that word.
+        for tok in align_token(w["word"]).split():
             tokens.append(tok)
             word_index.append(w["i"])
     return tokens, word_index

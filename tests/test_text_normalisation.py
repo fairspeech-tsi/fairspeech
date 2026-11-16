@@ -36,3 +36,17 @@ def test_real_words_are_not_fillers():
     for w in ("like", "umbrella", "her", "error", "hum", "ahead"):
         assert hesitation_rule(w) is None, w
         assert not is_filler(w), w
+
+def test_inner_punctuation_splits_words():
+    assert normalise_token("twenty-five") == "twenty five"
+    assert normalise_token("Well-known.") == "well known"
+    assert normalise_text("We were twenty-five.") == normalise_text("WE WERE TWENTY FIVE")
+
+
+def test_curly_apostrophes_are_straightened():
+    assert normalise_token("don’t") == "don't"
+    assert normalise_token("i’m") == "I'm"
+
+
+def test_fillers_are_removed_from_every_piece():
+    assert normalise_token("um-hmm") == ""

@@ -56,9 +56,12 @@ def test_align_marks_insertions_and_deletions():
     ("uh I think", "Um, I think.", [("filler", "filler", 0, 0)], [("filler", "filler", 0, 0)], "genuine"),
     # different category on the human side does not count
     ("he don't like it", "He don't like it.", [("grammar", "article", 1, 1)], [("grammar", SVA, 1, 1)], "false"),
+        # a hyphenated number on one side, two words on the other, still aligns
+    ("she has twenty five cats", "She have twenty-five cats.", [], [("grammar", SVA, 1, 1)], "false"),
 ])
 def test_labelling_rules(human, asr, human_flags, asr_flags, expected):
     assert label_of(human, asr, human_flags, asr_flags) == expected
+    
 
 
 def test_counts_and_human_record_unchanged():
