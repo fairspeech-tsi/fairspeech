@@ -6,6 +6,7 @@ metric looks the same everywhere in the app.
 from __future__ import annotations
 
 import streamlit as st
+from src.app.notice import FEEDBACK_DISCLAIMER
 
 # Display order and headings of flag types.
 TYPE_TITLES = {"grammar": "Grammar", "filler": "Fillers", "fluency": "Fluency"}
@@ -42,6 +43,7 @@ def render_feedback(record: dict) -> None:
     Flags hidden by the gate (shown = False) are only counted, so the page
     also works after gating. No shown flags: a short positive note.
     """
+    st.caption(f":material/info: {FEEDBACK_DISCLAIMER}")
     flags = record["feedback"]
     shown = [f for f in flags if f["shown"]]
     hidden = len(flags) - len(shown)
