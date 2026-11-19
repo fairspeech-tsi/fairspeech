@@ -49,6 +49,7 @@ streamlit run src/app/streamlit_app.py
 ```
 
 LanguageTool needs Java 17 or later. ASR models run on Colab: `pip install -r requirements-asr.txt`.
+**macOS:** LightGBM (used by the gate) needs OpenMP. Install [Homebrew](https://brew.sh), then run `brew install libomp`. Without it, `tests/test_gate.py` fails to import; to run all other tests, use `pytest --ignore=tests/test_gate.py`.
 
 ## Portfolio contents
 
