@@ -10,6 +10,8 @@ import re
 
 _NON_SPEECH = re.compile(r"^[\[<(].*[\]>)]$")   # sounds like [laughter], <noise>
 _PUNCT = re.compile(r"[^\w']+")                 # everything except letters, numbers and apostrophes
+# Typographic apostrophes and backticks, written as a straight apostrophe.
+_APOSTROPHES = re.compile(r"[\u2018\u2019\u201a\u201b\u2032`]")
 
 # Hesitation fillers, allowing elongated spellings (umm, uhh, errm).
 # These are removed before grammar checking and flagged by the filler module.
@@ -47,18 +49,27 @@ def clean_token(token: str) -> str:
     t = token.strip()
     if not t or _NON_SPEECH.match(t):
         return ""
-    return _PUNCT.sub("", t.lower()).strip("'")
+    t = _APOSTROPHES.sub("'", t.lower())
+    # Punctuation inside a token becomes a space, so "twenty-five" -> "twenty five"
+    # matches the human transcript's "TWENTY FIVE"; edge apostrophes are dropped.
+    pieces = (p.strip("'") for p in _PUNCT.sub(" ", t).split())
+    return " ".join(p for p in pieces if p)
 
 
 def normalise_token(token: str) -> str:
-    """Normalise one token for checking. Return "" if it should be skipped."""
-    t = clean_token(token)
-    if not t or is_filler(t):
-        return ""
+    """Normalise one token for checking. Return "" if it should be skipped.
 
-    if t == "i" or t.startswith("i'"):
-        t = "I" + t[1:]
-    return t
+    A token may become several words ("twenty-five" -> "twenty five"); fillers
+    are removed from each of them and the pronoun "I" is restored.
+    """
+    words = []
+    for t in clean_token(token).split():
+        if is_filler(t):
+            continue
+        if t == "i" or t.startswith("i'"):
+            t = "I" + t[1:]
+        words.append(t)
+    return " ".join(words)
 
 def normalise_text(text: str) -> str:
     """Normalise a whole transcript (e.g. for WER): normalised words joined by single spaces."""
