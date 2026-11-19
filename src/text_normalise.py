@@ -39,32 +39,25 @@ def is_filler(word: str) -> bool:
     t = _PUNCT.sub("", word.lower())
     return hesitation_rule(t) is not None or bool(_OTHER_NON_WORDS.match(t))
 
+def clean_token(token: str) -> str:
+    """Lowercase and strip punctuation (inner apostrophes kept).
 
-def normalise_token(token: str) -> str:
-    """Normalise one token for checking. Return "" if it should be skipped."""
+    Returns "" for non-speech tags and pure punctuation. Fillers are kept.
+    """
     t = token.strip()
     if not t or _NON_SPEECH.match(t):
         return ""
+    return _PUNCT.sub("", t.lower()).strip("'")
 
-    t = _PUNCT.sub("", t.lower()).strip("'")
+
+def normalise_token(token: str) -> str:
+    """Normalise one token for checking. Return "" if it should be skipped."""
+    t = clean_token(token)
     if not t or is_filler(t):
         return ""
 
     if t == "i" or t.startswith("i'"):
         t = "I" + t[1:]
-    return t
-    """Normalize a token for checking. Return "" if it should be skipped."""
-    t = token.strip()
-    if not t or is_filler(t):      # was: t in FILLERS
-        return ""
-    
-    t = _PUNCT.sub("", t.lower()).strip("'")
-
-    if not t or is_filler(t):
-        return ""
-
-    if t == "i" or t.startswith("i'"):
-     t = "I" + t[1:]
     return t
 
 def normalise_text(text: str) -> str:
