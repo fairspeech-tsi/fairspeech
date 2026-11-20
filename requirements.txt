@@ -29,6 +29,7 @@ matplotlib>=3.8
 
 # --- App (Member C) ---
 streamlit>=1.40        # st.audio_input for browser recording
+faster-whisper>=1.0
 
 # --- Dev ---
 pytest>=8.0
