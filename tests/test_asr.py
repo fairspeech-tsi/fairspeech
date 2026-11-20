@@ -98,7 +98,10 @@ def test_detect_hallucinations():
     assert "thank you" in halls
 
 
-def test_asr_wrappers_and_transcription():
+def test_asr_wrappers_and_transcription(monkeypatch):
+     # Force mock mode, so the test does not depend on installed packages or downloads
+    monkeypatch.setattr(WhisperASR, "_init_model", lambda self: setattr(self, "_backend", "mock"))
+
     # Test Whisper wrapper in simulation mode
     w_asr = WhisperASR(model_size="tiny", device="cpu")
     w_res = w_asr.transcribe("dummy.wav", fallback_text="test transcript here")

@@ -26,14 +26,13 @@ def test_record_and_upload_hidden_until_consent():
     at = practice()
     assert at.checkbox[0].label == CONSENT_LABEL
     assert not at.checkbox[0].value
-    info = [i.value for i in at.info]
-    assert any("Tick the box" in v for v in info)
-    assert not any("Recording and upload" in v for v in info)
+    assert any("Tick the box" in i.value for i in at.info)
+    assert len(at.button) == 0  # no "Get feedback" before consent
 
     at.checkbox[0].check().run()
-    info = [i.value for i in at.info]
-    assert any("Recording and upload" in v for v in info)
-    assert not any("Tick the box" in v for v in info)
+    assert not at.exception
+    assert not any("Tick the box" in i.value for i in at.info)
+    assert at.button[0].label == "Get feedback" and at.button[0].disabled  # no audio yet
 
 
 def test_about_page_shows_the_notice():

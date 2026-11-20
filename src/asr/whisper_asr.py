@@ -6,9 +6,11 @@ Uses faster-whisper or openai-whisper to extract:
 - Word-level confidence scores (probabilities)
 
 Provides a mock/simulation fallback when run in lightweight or offline test environments.
+The app calls transcribe(..., allow_mock=False), so it never shows feedback on mock text.
 """
 from __future__ import annotations
 
+from typing import Any, BinaryIO
 import logging
 from pathlib import Path
 from typing import Any
@@ -52,10 +54,21 @@ class WhisperASR:
         self._backend = "mock"
         logger.info("Whisper packages not found. Operating in mock/simulation mode.")
 
-    def transcribe(self, audio_path: str | Path, fallback_text: str | None = None) -> dict[str, Any]:
-        """Transcribe an audio file and return transcript with word timestamps and confidences."""
+    def transcribe(self, audio_path: str | Path | BinaryIO, fallback_text: str | None = None,
+                   language: str | None = "en", allow_mock: bool = True) -> dict[str, Any]:
+        """Transcribe audio and return transcript with word timestamps and confidences.
+
+        audio_path: a file path, or (faster-whisper only) an in-memory file such as
+            io.BytesIO, so the app never writes audio to disk.
+        language: "en" by default; accented English can otherwise be detected as
+            another language. None lets Whisper detect it.
+        allow_mock: if False, raise instead of returning mock text when no Whisper
+            package is installed (the app must never give feedback on mock text).
+        """
+        audio = str(audio_path) if isinstance(audio_path, (str, Path)) else audio_path
+
         if self._backend == "faster-whisper" and self.model is not None:
-            segments, _ = self.model.transcribe(str(audio_path), word_timestamps=True)
+            segments, _ = self.model.transcribe(audio, word_timestamps=True, language=language)
             words = []
             full_text_chunks = []
             word_idx = 0
@@ -79,7 +92,10 @@ class WhisperASR:
             }
 
         elif self._backend == "openai-whisper" and self.model is not None:
-            res = self.model.transcribe(str(audio_path), word_timestamps=True)
+            if not isinstance(audio, str):
+                raise TypeError("The openai-whisper backend needs a file path; install faster-whisper "
+                                "to transcribe in-memory audio.")
+            res = self.model.transcribe(audio, word_timestamps=True, language=language)
             words = []
             word_idx = 0
             for seg in res.get("segments", []):
@@ -98,6 +114,10 @@ class WhisperASR:
                 "transcript": res.get("text", "").strip(),
                 "words": words,
             }
+
+        if not allow_mock:
+            raise RuntimeError("No Whisper package is installed (run: pip install faster-whisper), "
+                               "so the audio cannot be transcribed.")
 
         # Mock / simulation mode (used in testing, demo fallback, or when audio file is simulated)
         text = fallback_text or "I have led three projects in my last job"
