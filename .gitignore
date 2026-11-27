@@ -49,3 +49,10 @@ hf_token*
 Thumbs.db
 .vscode/
 .idea/
+
+# EdAcc-derived tables: keep them on the private Drive, not in the public repo
+data/gold_dataset.csv
+data/gold_dataset.parquet
+data/*.csv
+data/*.parquet
+*.pkl
